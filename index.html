@@ -1,0 +1,1069 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>nine_lab — Aesthetic Excellence Across Asia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  /* ─── Design Tokens ─────────────────────────────────────────── */
+  :root {
+    --cream:        #FDF6EE;
+    --cream-deep:   #F5EDE0;
+    --navy:         #0D2B3E;
+    --navy-mid:     #1A3D52;
+    --blush:        #E8896A;
+    --blush-light:  #F2A98A;
+    --blush-pale:   #FDDDD0;
+    --text-dark:    #1C2B35;
+    --text-mid:     #4A6270;
+    --text-light:   #8BA3AE;
+    --white:        #FFFFFF;
+    --card-shadow:  0 8px 40px rgba(13,43,62,0.08);
+    --card-shadow-hover: 0 16px 56px rgba(13,43,62,0.14);
+    --r-pill:       999px;
+    --r-card:       20px;
+    --r-input:      12px;
+    --font-display: 'Cormorant Garamond', Georgia, serif;
+    --font-body:    'DM Sans', sans-serif;
+    --ease-out:     cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--cream);
+    color: var(--text-dark);
+    font-family: var(--font-body);
+    font-weight: 300;
+    line-height: 1.65;
+    -webkit-font-smoothing: antialiased;
+  }
+  img { display: block; width: 100%; object-fit: cover; }
+  a { text-decoration: none; color: inherit; }
+
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0;
+  }
+
+  .container { max-width: 1120px; margin: 0 auto; padding: 0 24px; }
+  .section    { padding: 96px 0; position: relative; }
+
+  /* ─── NAV ────────────────────────────────────────────────────── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    background: transparent;
+    transition: background 0.5s, backdrop-filter 0.5s, border-color 0.5s;
+    border-bottom: 1px solid transparent;
+  }
+  nav.scrolled {
+    background: rgba(253,246,238,0.90);
+    backdrop-filter: blur(20px);
+    border-bottom-color: rgba(13,43,62,0.06);
+  }
+  .nav-inner {
+    display: flex; align-items: center; justify-content: space-between;
+    height: 68px; padding: 0 32px;
+  }
+  .nav-logo {
+    font-family: var(--font-display);
+    font-size: 22px; font-weight: 500; letter-spacing: 0.06em; color: var(--navy);
+  }
+  .nav-logo span { color: var(--blush); }
+  .nav-links { display: flex; gap: 36px; }
+  .nav-links a {
+    font-size: 13px; letter-spacing: 0.04em; font-weight: 400;
+    color: var(--navy); opacity: 0.72; transition: opacity 0.2s;
+  }
+  .nav-links a:hover { opacity: 1; }
+  .nav-cta {
+    font-size: 12px; font-weight: 500; letter-spacing: 0.07em;
+    padding: 9px 22px;
+    background: linear-gradient(135deg, var(--blush-light), var(--blush));
+    color: var(--white); border-radius: var(--r-pill);
+    transition: transform 0.2s var(--ease-out), box-shadow 0.2s;
+  }
+  .nav-cta:hover { transform: translateY(-1px); box-shadow: 0 6px 20px rgba(232,137,106,0.35); }
+  .nav-hamburger {
+    display: none; background: none; border: none; cursor: pointer;
+    flex-direction: column; gap: 5px; padding: 4px;
+  }
+  .nav-hamburger span { display: block; width: 22px; height: 1.5px; background: var(--navy); border-radius: 2px; }
+
+  /* ─── HERO ───────────────────────────────────────────────────── */
+  .hero {
+    position: relative; min-height: 100vh;
+    display: flex; align-items: center;
+    overflow: hidden; background: #F0DECA;
+  }
+  .hero-bg {
+    position: absolute; inset: -8% -4%;
+    background: url('metallic_line_art_sculpture.png') center center / cover no-repeat;
+    will-change: transform; transform-origin: center center; z-index: 0;
+  }
+  .hero-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background:
+      linear-gradient(to right, rgba(240,222,202,0.88) 0%, rgba(240,222,202,0.65) 32%, rgba(240,222,202,0.18) 58%, rgba(240,222,202,0.00) 100%),
+      linear-gradient(to bottom, rgba(240,222,202,0.12) 0%, transparent 15%, transparent 85%, rgba(240,222,202,0.20) 100%);
+    pointer-events: none;
+  }
+  .hero-content { position: relative; z-index: 2; width: 100%; padding: 120px 0 80px; }
+  .hero-inner { max-width: 520px; }
+  .hero-eyebrow {
+    display: inline-block; font-size: 11px; font-weight: 500; letter-spacing: 0.16em;
+    color: var(--blush); text-transform: uppercase; margin-bottom: 22px; padding: 6px 14px;
+    background: rgba(232,137,106,0.10); border: 1px solid rgba(232,137,106,0.25); border-radius: var(--r-pill);
+  }
+  .hero-title {
+    font-family: var(--font-display); font-size: clamp(44px, 5.5vw, 72px);
+    font-weight: 300; line-height: 1.08; color: var(--navy); margin-bottom: 24px;
+  }
+  .hero-title em { font-style: italic; color: var(--blush); }
+  .hero-subtitle { font-size: 15px; color: var(--text-mid); max-width: 420px; margin-bottom: 40px; line-height: 1.85; }
+  .hero-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+  .btn-primary {
+    display: inline-flex; align-items: center; gap: 8px; padding: 14px 30px;
+    background: linear-gradient(135deg, var(--blush-light), var(--blush));
+    color: var(--white); border-radius: var(--r-pill);
+    font-size: 13px; font-weight: 500; letter-spacing: 0.04em;
+    transition: transform 0.2s var(--ease-out), box-shadow 0.2s; cursor: pointer; border: none;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 28px rgba(232,137,106,0.38); }
+  .btn-secondary {
+    display: inline-flex; align-items: center; gap: 8px; padding: 14px 28px;
+    background: rgba(13,43,62,0.06); color: var(--navy); border: 1.5px solid rgba(13,43,62,0.18);
+    border-radius: var(--r-pill); font-size: 13px; font-weight: 400; letter-spacing: 0.04em;
+    transition: background 0.2s, border-color 0.2s; cursor: pointer;
+  }
+  .btn-secondary:hover { background: rgba(13,43,62,0.10); border-color: rgba(13,43,62,0.30); }
+  .hero-stats {
+    display: flex; gap: 44px; margin-top: 56px; padding-top: 36px;
+    border-top: 1px solid rgba(13,43,62,0.10);
+  }
+  .stat-num { font-family: var(--font-display); font-size: 34px; font-weight: 400; color: var(--navy); line-height: 1; }
+  .stat-label { font-size: 10px; letter-spacing: 0.1em; color: var(--text-light); text-transform: uppercase; margin-top: 6px; }
+
+  /* ─── WHAT WE DO ─────────────────────────────────────────────── */
+  .what-section { background: var(--white); }
+  .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; color: var(--blush); text-transform: uppercase; margin-bottom: 12px; }
+  .section-title { font-family: var(--font-display); font-size: clamp(32px,4vw,50px); font-weight: 300; color: var(--navy); line-height: 1.18; margin-bottom: 16px; }
+  .section-title em { font-style: italic; }
+  .section-subtitle { font-size: 15px; color: var(--text-mid); max-width: 520px; line-height: 1.8; }
+  .section-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 56px; gap: 24px; }
+  .section-header-text { max-width: 540px; }
+  .pillars-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; margin-top: 56px; }
+  .pillar-num { font-family: var(--font-display); font-size: 48px; font-weight: 300; color: var(--blush); line-height: 1; margin-bottom: 20px; opacity: 0.6; }
+  .pillar-title { font-size: 16px; font-weight: 500; color: var(--navy); margin-bottom: 10px; }
+  .pillar-body  { font-size: 13.5px; color: var(--text-mid); line-height: 1.8; }
+  .platforms-strip { margin-top: 72px; padding: 56px 0 0; border-top: 1px solid rgba(13,43,62,0.08); }
+  .platforms-label { font-family: var(--font-display); font-size: clamp(28px,3.5vw,44px); font-weight: 300; letter-spacing: 0.04em; color: var(--navy); margin-bottom: 8px; }
+  .platforms-label em { font-style: italic; color: var(--blush); }
+  .platforms-tagline { font-size: 13px; color: var(--text-light); margin-bottom: 40px; }
+  .platforms-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; }
+  .platform-card { background: var(--cream); border-radius: var(--r-card); padding: 28px 22px; box-shadow: var(--card-shadow); transition: transform 0.22s var(--ease-out), box-shadow 0.22s; cursor: pointer; }
+  .platform-card:hover { transform: translateY(-4px); box-shadow: var(--card-shadow-hover); }
+  .platform-card-name { font-size: 14px; font-weight: 500; color: var(--navy); margin-bottom: 8px; }
+  .platform-card-desc { font-size: 12.5px; color: var(--text-mid); line-height: 1.7; }
+
+  /* ═══════════════════════════════════════════════════════════════
+     SURGEON CAROUSEL
+  ═══════════════════════════════════════════════════════════════ */
+  .surgeons-section { background: var(--cream); }
+  .surgeon-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 48px; gap: 24px; }
+  .surgeon-header-text { max-width: 540px; }
+  .carousel-arrows { display: flex; gap: 12px; flex-shrink: 0; align-items: center; }
+  .carousel-arrow {
+    width: 48px; height: 48px; border-radius: 50%;
+    background: var(--white); border: 1.5px solid rgba(13,43,62,0.12);
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer; transition: background 0.22s, border-color 0.22s, box-shadow 0.22s, transform 0.22s;
+    outline: none;
+  }
+  .carousel-arrow svg { width: 18px; height: 18px; color: var(--navy); transition: color 0.22s; }
+  .carousel-arrow:hover { background: linear-gradient(135deg, var(--blush-light), var(--blush)); border-color: transparent; box-shadow: 0 6px 20px rgba(232,137,106,0.30); transform: translateY(-1px); }
+  .carousel-arrow:hover svg { color: var(--white); }
+  .carousel-arrow:focus-visible { outline: 2px solid var(--blush); outline-offset: 3px; }
+  .carousel-arrow:disabled { opacity: 0.32; pointer-events: none; }
+  .carousel-viewport { overflow: hidden; border-radius: var(--r-card); margin: 0 -4px; padding: 4px; }
+  .carousel-track { display: flex; gap: 24px; will-change: transform; transition: transform 600ms cubic-bezier(0.22, 1, 0.36, 1); cursor: grab; user-select: none; }
+  .carousel-track.is-dragging { cursor: grabbing; transition: none; }
+  .surgeon-card {
+    flex: 0 0 calc((100% - (var(--cards-visible, 3) - 1) * 24px) / var(--cards-visible, 3));
+    min-width: 0;
+    background: var(--white); border-radius: var(--r-card); overflow: hidden;
+    box-shadow: var(--card-shadow);
+    transition: transform 0.26s var(--ease-out), box-shadow 0.26s; cursor: pointer;
+  }
+  .surgeon-card:hover { transform: translateY(-6px); box-shadow: var(--card-shadow-hover); }
+  .surgeon-img { aspect-ratio: 4/5; overflow: hidden; position: relative; }
+  .surgeon-img-placeholder { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; }
+  .surgeon-img-overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(13,43,62,0.5) 0%, transparent 50%); }
+  .surgeon-body { padding: 22px 22px 26px; }
+  .surgeon-name { font-family: var(--font-display); font-size: 22px; font-weight: 400; color: var(--navy); margin-bottom: 6px; }
+  .surgeon-specialty { display: inline-block; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--blush); font-weight: 500; margin-bottom: 12px; }
+  .surgeon-bio { font-size: 13px; color: var(--text-mid); line-height: 1.75; }
+  .surgeon-cta { display: inline-flex; align-items: center; gap: 6px; margin-top: 18px; font-size: 12px; font-weight: 500; color: var(--blush); letter-spacing: 0.04em; transition: gap 0.2s; }
+  .surgeon-card:hover .surgeon-cta { gap: 10px; }
+  .carousel-footer { margin-top: 36px; display: flex; flex-direction: column; align-items: center; gap: 20px; }
+  .carousel-dots { display: flex; gap: 10px; align-items: center; }
+  .carousel-dot { width: 7px; height: 7px; border-radius: 50%; background: rgba(13,43,62,0.18); border: none; padding: 0; cursor: pointer; transition: background 0.3s, transform 0.3s, width 0.3s; outline: none; }
+  .carousel-dot.active { background: var(--blush); width: 24px; border-radius: 4px; }
+  .carousel-dot:focus-visible { outline: 2px solid var(--blush); outline-offset: 3px; }
+  .carousel-progress-wrap { width: 100%; max-width: 320px; height: 2px; background: rgba(13,43,62,0.10); border-radius: 2px; overflow: hidden; }
+  .carousel-progress-fill { height: 100%; border-radius: 2px; background: linear-gradient(90deg, var(--blush-light), var(--blush)); transition: width 600ms cubic-bezier(0.22, 1, 0.36, 1); width: 0%; }
+  .carousel-counter { font-size: 11px; letter-spacing: 0.1em; color: var(--text-light); text-transform: uppercase; margin-top: 4px; }
+
+  /* ─── ENQUIRY ────────────────────────────────────────────────── */
+  .enquiry-section { background: var(--cream-deep); }
+  .enquiry-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: start; }
+  .enquiry-copy { padding-top: 12px; }
+  .enquiry-copy .section-title { max-width: 380px; }
+  .enquiry-copy .section-subtitle { margin-top: 16px; }
+  .trust-badges { display: flex; flex-direction: column; gap: 18px; margin-top: 40px; }
+  .trust-item   { display: flex; align-items: flex-start; gap: 14px; }
+  .trust-icon { width: 36px; height: 36px; flex-shrink: 0; background: var(--blush-pale); border-radius: 10px; display: flex; align-items: center; justify-content: center; margin-top: 2px; }
+  .trust-icon svg { width: 18px; height: 18px; color: var(--blush); }
+  .trust-text-title { font-size: 13px; font-weight: 500; color: var(--navy); }
+  .trust-text-body  { font-size: 12px; color: var(--text-mid); margin-top: 2px; }
+  .forms-tabs { background: var(--navy); border-radius: 24px; overflow: hidden; box-shadow: 0 24px 64px rgba(13,43,62,0.20); }
+  .tabs-nav { display: flex; border-bottom: 1px solid rgba(255,255,255,0.08); }
+  .tab-btn { flex: 1; padding: 18px 16px; font-size: 12px; font-weight: 500; letter-spacing: 0.06em; color: rgba(255,255,255,0.45); background: none; border: none; cursor: pointer; text-align: center; text-transform: uppercase; transition: color 0.2s, background 0.2s; position: relative; }
+  .tab-btn.active { color: var(--white); background: rgba(255,255,255,0.05); }
+  .tab-btn.active::after { content: ''; position: absolute; bottom: 0; left: 20%; right: 20%; height: 2px; background: linear-gradient(90deg, var(--blush-light), var(--blush)); border-radius: 2px; }
+  .tab-pane { display: none; padding: 32px 30px 36px; }
+  .tab-pane.active { display: block; }
+  .form-group { margin-bottom: 18px; }
+  .form-label { display: block; font-size: 11px; letter-spacing: 0.08em; color: rgba(255,255,255,0.5); text-transform: uppercase; margin-bottom: 8px; }
+  .form-input, .form-select, .form-textarea { width: 100%; padding: 13px 16px; background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1); border-radius: var(--r-input); color: var(--white); font-family: var(--font-body); font-size: 13.5px; outline: none; transition: border-color 0.2s, background 0.2s; }
+  .form-input::placeholder, .form-textarea::placeholder { color: rgba(255,255,255,0.22); }
+  .form-input:focus, .form-select:focus, .form-textarea:focus { border-color: rgba(232,137,106,0.5); background: rgba(255,255,255,0.09); }
+  .form-select { appearance: none; cursor: pointer; }
+  .form-select option { background: var(--navy-mid); }
+  .form-textarea { resize: vertical; min-height: 90px; }
+  .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; }
+  .form-submit {
+    width: 100%; padding: 15px;
+    background: linear-gradient(135deg, var(--blush-light), var(--blush));
+    border: none; border-radius: var(--r-pill); color: var(--white);
+    font-family: var(--font-body); font-size: 13px; font-weight: 500; letter-spacing: 0.06em;
+    cursor: pointer; margin-top: 6px;
+    transition: transform 0.2s var(--ease-out), box-shadow 0.2s;
+    display: flex; align-items: center; justify-content: center; gap: 10px;
+  }
+  .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,137,106,0.35); }
+  .form-note { text-align: center; margin-top: 14px; font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.6; }
+
+  /* ─── Form validation & feedback ────────────────────────────── */
+  .req { color: var(--blush); font-style: normal; }
+  .opt { color: rgba(255,255,255,0.30); font-size: 10px; font-style: normal; }
+
+  .field-error {
+    display: block; min-height: 16px;
+    font-size: 11px; color: #f4a08a;
+    margin-top: 5px; letter-spacing: 0.02em;
+    opacity: 0; transform: translateY(-4px);
+    transition: opacity 0.2s, transform 0.2s;
+  }
+  .field-error.visible { opacity: 1; transform: translateY(0); }
+
+  .form-input.invalid {
+    border-color: rgba(244,160,138,0.65) !important;
+    background: rgba(244,160,138,0.06) !important;
+  }
+
+  .form-feedback {
+    display: none; padding: 14px 18px;
+    border-radius: var(--r-input);
+    font-size: 13px; line-height: 1.6; margin-bottom: 16px;
+  }
+  .form-feedback.success {
+    display: block;
+    background: rgba(100,190,140,0.12);
+    border: 1px solid rgba(100,190,140,0.35);
+    color: #8adbb4;
+  }
+  .form-feedback.error {
+    display: block;
+    background: rgba(244,160,138,0.10);
+    border: 1px solid rgba(244,160,138,0.35);
+    color: #f4a08a;
+  }
+
+  .btn-spinner {
+    display: none; width: 16px; height: 16px;
+    border: 2px solid rgba(255,255,255,0.40);
+    border-top-color: var(--white); border-radius: 50%;
+    animation: spin 0.7s linear infinite; flex-shrink: 0;
+  }
+  .form-submit.loading .btn-label  { opacity: 0.5; }
+  .form-submit.loading .btn-spinner { display: inline-block; }
+  .form-submit.loading { pointer-events: none; }
+  .form-submit.done   { pointer-events: none; opacity: 0.6; }
+
+  @keyframes spin { to { transform: rotate(360deg); } }
+
+  /* ─── FOOTER ─────────────────────────────────────────────────── */
+  footer { background: var(--navy); color: rgba(255,255,255,0.55); padding: 56px 0 36px; }
+  .footer-inner { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 48px; margin-bottom: 48px; }
+  .footer-brand-name { font-family: var(--font-display); font-size: 24px; font-weight: 400; color: var(--white); letter-spacing: 0.06em; margin-bottom: 12px; }
+  .footer-brand-name span { color: var(--blush-light); }
+  .footer-tagline { font-size: 13px; line-height: 1.75; max-width: 280px; }
+  .footer-col-title { font-size: 11px; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--white); margin-bottom: 18px; }
+  .footer-links { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+  .footer-links a { font-size: 13px; transition: color 0.2s; }
+  .footer-links a:hover { color: var(--blush-light); }
+  .footer-bottom { border-top: 1px solid rgba(255,255,255,0.07); padding-top: 28px; display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
+
+  /* ─── RESPONSIVE ─────────────────────────────────────────────── */
+  @media (max-width: 900px) {
+    .pillars-grid   { grid-template-columns: 1fr; gap: 28px; }
+    .platforms-grid { grid-template-columns: 1fr 1fr; }
+    .enquiry-inner  { grid-template-columns: 1fr; }
+    .footer-inner   { grid-template-columns: 1fr 1fr; gap: 32px; }
+    .section-header { flex-direction: column; align-items: flex-start; }
+    .surgeon-header { flex-direction: column; align-items: flex-start; gap: 20px; }
+    .carousel-arrows { align-self: flex-end; }
+    .hero-stats     { gap: 32px; }
+  }
+  @media (max-width: 640px) {
+    .nav-links, .nav-cta { display: none; }
+    .nav-hamburger  { display: flex; }
+    .section        { padding: 64px 0; }
+    .platforms-grid { grid-template-columns: 1fr 1fr; }
+    .footer-inner   { grid-template-columns: 1fr; }
+    .hero-stats     { gap: 24px; flex-wrap: wrap; }
+    .form-row       { grid-template-columns: 1fr; }
+    .hero-title     { font-size: clamp(36px,10vw,52px); }
+  }
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(28px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up  { animation: fadeUp 0.9s var(--ease-out) both; }
+  .delay-1  { animation-delay: 0.15s; }
+  .delay-2  { animation-delay: 0.30s; }
+  .delay-3  { animation-delay: 0.46s; }
+  .delay-4  { animation-delay: 0.62s; }
+</style>
+</head>
+<body>
+
+<!-- ═══ NAV ═════════════════════════════════════════════════════ -->
+<nav id="main-nav">
+  <div class="nav-inner">
+    <div class="nav-logo">nine<span>_</span>lab</div>
+    <div class="nav-links">
+      <a href="#about">What We Do</a>
+      <a href="#surgeons">Our Surgeons</a>
+      <a href="#enquiry">Enquire</a>
+      <a href="#contact">Contact</a>
+    </div>
+    <a href="#enquiry" class="nav-cta">Get Consultation</a>
+    <button class="nav-hamburger" aria-label="Menu"><span></span><span></span><span></span></button>
+  </div>
+</nav>
+
+<!-- ═══ HERO ═════════════════════════════════════════════════════ -->
+<section class="hero" id="hero">
+  <div class="hero-bg" id="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="container">
+      <div class="hero-inner">
+        <div class="hero-eyebrow fade-up">Aesthetic Excellence Across Asia</div>
+        <h1 class="hero-title fade-up delay-1">Where <em>refined</em> beauty<br>meets trusted care.</h1>
+        <p class="hero-subtitle fade-up delay-2">nine_lab connects you with vetted aesthetic surgeons and clinics across the region — guiding every step with clarity, care, and discretion.</p>
+        <div class="hero-actions fade-up delay-3">
+          <a href="#enquiry" class="btn-primary">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2z"/><polyline points="22 6 12 13 2 6"/></svg>
+            Enquire Now
+          </a>
+          <a href="#surgeons" class="btn-secondary">Meet Our Surgeons</a>
+        </div>
+        <div class="hero-stats fade-up delay-4">
+          <div><div class="stat-num">50+</div><div class="stat-label">Partner Clinics</div></div>
+          <div><div class="stat-num">8</div><div class="stat-label">Countries</div></div>
+          <div><div class="stat-num">10k+</div><div class="stat-label">Consultations</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ WHAT WE DO ════════════════════════════════════════════════ -->
+<section class="what-section section" id="about">
+  <div class="container">
+    <p class="section-label">Our Purpose</p>
+    <h2 class="section-title">What we <em>do</em></h2>
+    <div class="pillars-grid">
+      <div>
+        <div class="pillar-num">01</div>
+        <h3 class="pillar-title">Consultation Matching</h3>
+        <p class="pillar-body">We help connect individuals with suitable partner surgeons and clinics based on their specific interests, goals, and medical needs — across 8 countries in Asia.</p>
+      </div>
+      <div>
+        <div class="pillar-num">02</div>
+        <h3 class="pillar-title">Educational Content & Insights</h3>
+        <p class="pillar-body">Providing aesthetic-related educational content, industry updates, and patient awareness through our regional social platforms — in multiple languages.</p>
+      </div>
+      <div>
+        <div class="pillar-num">03</div>
+        <h3 class="pillar-title">Partnership Opportunities</h3>
+        <p class="pillar-body">Supporting clinics and healthcare professionals through collaboration, referral network development, and regional brand-building opportunities.</p>
+      </div>
+    </div>
+    <div class="platforms-strip">
+      <p class="platforms-label"><em>Partnerships.</em> Education. Community.</p>
+      <p class="platforms-tagline">See how we collaborate with surgeons and clinics across the region.</p>
+      <div class="platforms-grid">
+        <div class="platform-card"><p class="platform-card-name">TikTok</p><p class="platform-card-desc">Short-form education and clinic stories for an engaged regional audience.</p></div>
+        <div class="platform-card"><p class="platform-card-name">Instagram</p><p class="platform-card-desc">Before/after journeys and behind-the-scenes procedure content.</p></div>
+        <div class="platform-card"><p class="platform-card-name">Xiaohongshu</p><p class="platform-card-desc">Patient education and trusted reviews for Chinese-speaking markets.</p></div>
+        <div class="platform-card"><p class="platform-card-name">Reddit</p><p class="platform-card-desc">Deeper community dives and Q&As in under 60 seconds.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FEATURED SURGEONS — CAROUSEL ════════════════════════════ -->
+<section class="surgeons-section section" id="surgeons">
+  <div class="container">
+    <div class="surgeon-header">
+      <div class="surgeon-header-text">
+        <p class="section-label">Our Network</p>
+        <h2 class="section-title">Meet our <em>featured</em><br>partner surgeons</h2>
+        <p class="section-subtitle">Each surgeon in our network is personally vetted for credentials, patient outcomes, and professional conduct.</p>
+      </div>
+      <div class="carousel-arrows">
+        <button class="carousel-arrow" id="arrow-prev" aria-label="Previous surgeons">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <button class="carousel-arrow" id="arrow-next" aria-label="Next surgeons">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 6 15 12 9 18"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div class="carousel-viewport" id="carousel-viewport" role="region" aria-label="Featured surgeons" aria-live="polite">
+      <div class="carousel-track" id="carousel-track">
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#dce6ec,#b8ccd6)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Aesthetic Surgery · Singapore</p><h3 class="surgeon-name">Dr. A</h3><p class="surgeon-bio">Board-certified aesthetic surgeon specialising in facial rejuvenation and minimally invasive procedures with over 12 years of practice.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#e8d8cf,#d4bdb2)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Dermatology · Malaysia</p><h3 class="surgeon-name">Dr. B</h3><p class="surgeon-bio">Renowned dermatologist with deep expertise in skin health, laser treatments, and non-surgical body contouring across Southeast Asia.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#ccd9dc,#aec1c6)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Plastic Surgery · Thailand</p><h3 class="surgeon-name">Dr. C</h3><p class="surgeon-bio">Award-winning plastic surgeon known for natural-looking results and a patient-first philosophy developed over two decades of practice.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#d8e0d4,#b8c8b2)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Rhinoplasty · South Korea</p><h3 class="surgeon-name">Dr. D</h3><p class="surgeon-bio">Pioneer in East Asian rhinoplasty techniques, combining cultural sensitivity with precision sculpting refined over 18 years of specialist practice.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#e2d4e0,#c8b0c4)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Body Contouring · Indonesia</p><h3 class="surgeon-name">Dr. E</h3><p class="surgeon-bio">Leading body contouring specialist with international training, known for delivering naturally proportioned outcomes with minimal recovery time.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#d4dce8,#b0bcd4)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Facial Aesthetics · Taiwan</p><h3 class="surgeon-name">Dr. F</h3><p class="surgeon-bio">Dual-trained in reconstructive and aesthetic facial surgery, with a reputation for precision jawline and cheekbone enhancement procedures.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#e0d8cc,#c8c0b0)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Skin Rejuvenation · Japan</p><h3 class="surgeon-name">Dr. G</h3><p class="surgeon-bio">Skin rejuvenation and laser specialist trained in Tokyo and Seoul, offering a holistic approach to skin health and long-term radiance management.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+        <article class="surgeon-card" tabindex="0">
+          <div class="surgeon-img"><div class="surgeon-img-placeholder" style="background:linear-gradient(135deg,#dce4d8,#bcc8b8)"><svg width="56" height="56" viewBox="0 0 24 24" fill="none" stroke="rgba(13,43,62,0.22)" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg></div><div class="surgeon-img-overlay"></div></div>
+          <div class="surgeon-body"><p class="surgeon-specialty">Breast Surgery · Australia</p><h3 class="surgeon-name">Dr. H</h3><p class="surgeon-bio">Fellowship-trained breast surgeon with 15 years of experience delivering discreet, patient-centred outcomes across the Asia-Pacific region.</p><a href="#enquiry" class="surgeon-cta">Enquire <span>→</span></a></div>
+        </article>
+
+      </div>
+    </div>
+
+    <div class="carousel-footer">
+      <div class="carousel-dots" id="carousel-dots" role="tablist" aria-label="Slide navigation"></div>
+      <div class="carousel-progress-wrap" aria-hidden="true">
+        <div class="carousel-progress-fill" id="carousel-progress"></div>
+      </div>
+      <p class="carousel-counter" id="carousel-counter" aria-live="polite"></p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ ENQUIRY ══════════════════════════════════════════════════ -->
+<section class="enquiry-section section" id="enquiry">
+  <div class="container">
+    <div class="enquiry-inner">
+
+      <!-- Left: copy + trust signals -->
+      <div class="enquiry-copy">
+        <p class="section-label">Get in Touch</p>
+        <h2 class="section-title">Let us guide<br>your <em>next step</em>.</h2>
+        <p class="section-subtitle">Submit your enquiry and our team will be in touch to guide you through your options with care and discretion.</p>
+        <div class="trust-badges">
+          <div class="trust-item">
+            <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg></div>
+            <div><p class="trust-text-title">Verified Surgeons Only</p><p class="trust-text-body">Every surgeon in our network is credential-verified and professionally screened.</p></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0110 0v4"/></svg></div>
+            <div><p class="trust-text-title">Fully Confidential</p><p class="trust-text-body">Your information is shared only with your chosen surgeon's team — never sold or distributed.</p></div>
+          </div>
+          <div class="trust-item">
+            <div class="trust-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg></div>
+            <div><p class="trust-text-title">48-Hour Response</p><p class="trust-text-body">Our care team aims to follow up on every enquiry within two business days.</p></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right: tabbed forms -->
+      <div>
+        <div class="forms-tabs">
+          <div class="tabs-nav">
+            <button class="tab-btn active" data-tab="consult" type="button">Consult With a Surgeon</button>
+            <button class="tab-btn" data-tab="partner" type="button">Become a Partner</button>
+          </div>
+
+          <!-- ── FORM 1: Patient / Consult ── -->
+          <div class="tab-pane active" id="tab-consult">
+            <form id="form-patient" novalidate>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="p-firstName">First Name <span class="req">*</span></label>
+                  <input type="text" id="p-firstName" name="firstName" class="form-input" placeholder="Jane" required autocomplete="given-name">
+                  <span class="field-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="p-lastName">Last Name</label>
+                  <input type="text" id="p-lastName" name="lastName" class="form-input" placeholder="Smith" autocomplete="family-name">
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-phone">Phone Number <span class="req">*</span></label>
+                <input type="tel" id="p-phone" name="phone" class="form-input" placeholder="+65 9000 0000" required autocomplete="tel">
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-email">Email Address <span class="req">*</span></label>
+                <input type="email" id="p-email" name="email" class="form-input" placeholder="jane@example.com" required autocomplete="email">
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-interest">Area of Interest <span class="req">*</span></label>
+                <select id="p-interest" name="areaOfInterest" class="form-input form-select" required>
+                  <option value="" disabled selected>Select a procedure type…</option>
+                  <option>Facial Rejuvenation</option>
+                  <option>Body Contouring</option>
+                  <option>Skin &amp; Laser Treatments</option>
+                  <option>Rhinoplasty</option>
+                  <option>Breast Procedures</option>
+                  <option>Other / Not Sure Yet</option>
+                </select>
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="p-surgeon">Preferred Surgeon <span class="opt">(optional)</span></label>
+                <input type="text" id="p-surgeon" name="preferredSurgeon" class="form-input" placeholder="Dr. A, Dr. B, or leave blank">
+              </div>
+              <div class="form-feedback" id="feedback-patient" aria-live="polite" role="alert"></div>
+              <button type="submit" class="form-submit" id="submit-patient">
+                <span class="btn-label">Get Consultation</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+              <p class="form-note">By submitting, you agree to our Privacy Policy. No obligation — simply a conversation.</p>
+            </form>
+          </div>
+
+          <!-- ── FORM 2: Partner / Client ── -->
+          <div class="tab-pane" id="tab-partner">
+            <form id="form-client" novalidate>
+              <div class="form-group">
+                <label class="form-label" for="c-fullName">Full Name <span class="req">*</span></label>
+                <input type="text" id="c-fullName" name="fullName" class="form-input" placeholder="Dr. / Ms. / Mr." required autocomplete="name">
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-clinic">Clinic / Company <span class="req">*</span></label>
+                <input type="text" id="c-clinic" name="clinicCompany" class="form-input" placeholder="Your clinic or organisation name" required autocomplete="organization">
+                <span class="field-error" aria-live="polite"></span>
+              </div>
+              <div class="form-row">
+                <div class="form-group">
+                  <label class="form-label" for="c-country">Country <span class="req">*</span></label>
+                  <select id="c-country" name="country" class="form-input form-select" required>
+                    <option value="" disabled selected>Select…</option>
+                    <option>Singapore</option>
+                    <option>Malaysia</option>
+                    <option>Thailand</option>
+                    <option>Indonesia</option>
+                    <option>South Korea</option>
+                    <option>Japan</option>
+                    <option>Taiwan</option>
+                    <option>Australia</option>
+                    <option>Other</option>
+                  </select>
+                  <span class="field-error" aria-live="polite"></span>
+                </div>
+                <div class="form-group">
+                  <label class="form-label" for="c-email">Email <span class="req">*</span></label>
+                  <input type="email" id="c-email" name="email" class="form-input" placeholder="you@clinic.com" required autocomplete="email">
+                  <span class="field-error" aria-live="polite"></span>
+                </div>
+              </div>
+              <div class="form-group">
+                <label class="form-label" for="c-message">Message <span class="opt">(optional)</span></label>
+                <textarea id="c-message" name="message" class="form-input form-textarea" placeholder="Tell us about your clinic and how you'd like to collaborate…"></textarea>
+              </div>
+              <div class="form-feedback" id="feedback-client" aria-live="polite" role="alert"></div>
+              <button type="submit" class="form-submit" id="submit-client">
+                <span class="btn-label">Become a Partner</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+              <p class="form-note">We review every partnership application personally and respond within 48 hours.</p>
+            </form>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ════════════════════════════════════════════════════ -->
+<footer id="contact">
+  <div class="container">
+    <div class="footer-inner">
+      <div>
+        <div class="footer-brand-name">nine<span>_</span>lab</div>
+        <p class="footer-tagline">Empowering aesthetic excellence across Asia through trusted partnerships, patient education, and regional community.</p>
+      </div>
+      <div>
+        <p class="footer-col-title">Platform</p>
+        <ul class="footer-links">
+          <li><a href="#about">What We Do</a></li>
+          <li><a href="#surgeons">Our Surgeons</a></li>
+          <li><a href="#enquiry">Enquire Now</a></li>
+          <li><a href="#enquiry">Become a Partner</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Social</p>
+        <ul class="footer-links">
+          <li><a href="#">TikTok</a></li>
+          <li><a href="#">Instagram</a></li>
+          <li><a href="#">Xiaohongshu</a></li>
+          <li><a href="#">Reddit</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="footer-col-title">Legal</p>
+        <ul class="footer-links">
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Use</a></li>
+          <li><a href="#">Cookie Policy</a></li>
+          <li><a href="#">Contact Us</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 nine_lab. All rights reserved.</span>
+      <span>Crafted with care · Singapore</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+(function () {
+  'use strict';
+
+  /* ══════════════════════════════════════════════════════════════
+     CONFIG
+  ══════════════════════════════════════════════════════════════ */
+  const ENDPOINT = 'https://script.google.com/macros/s/AKfycbwEphRWjWu41dbr9RzY7jAEliNPOwLOjR4QcRx9UL4E2rvschzBtqtFwtY-SgfDv6bEUg/exec';
+
+  /* ══════════════════════════════════════════════════════════════
+     HERO BACKGROUND ANIMATION
+  ══════════════════════════════════════════════════════════════ */
+  const nav    = document.getElementById('main-nav');
+  const heroBg = document.getElementById('hero-bg');
+  const hero   = document.getElementById('hero');
+  const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  let heroH = hero.offsetHeight;
+  let pageScrollY = 0;
+
+  window.addEventListener('resize', () => { heroH = hero.offsetHeight; }, { passive: true });
+  window.addEventListener('scroll', () => {
+    pageScrollY = window.scrollY;
+    nav.classList.toggle('scrolled', pageScrollY > 40);
+  }, { passive: true });
+
+  const DRIFT_RANGE = 15, DRIFT_PERIOD = 14000;
+  const FLOAT_RANGE = 10, FLOAT_PERIOD = 9000;
+  const ZOOM_MIN = 1.00, ZOOM_MAX = 1.03, ZOOM_PERIOD = 18000;
+  const PARALLAX_RATE = 0.22;
+
+  function heroBgTick(ts) {
+    if (!prefersReduced) {
+      const driftT = Math.sin((ts / DRIFT_PERIOD) * Math.PI * 2);
+      const floatT = Math.sin((ts / FLOAT_PERIOD) * Math.PI * 2 + 1.2);
+      const zoomT  = (Math.sin((ts / ZOOM_PERIOD) * Math.PI * 2 - Math.PI / 2) + 1) / 2;
+      const tx     = driftT * (DRIFT_RANGE / 2);
+      const ty     = floatT * (FLOAT_RANGE / 2);
+      const scale  = ZOOM_MIN + zoomT * (ZOOM_MAX - ZOOM_MIN);
+      const parY   = pageScrollY < heroH ? pageScrollY * PARALLAX_RATE : heroH * PARALLAX_RATE;
+      heroBg.style.transform = `translate3d(${tx}px,${ty + parY}px,0) scale(${scale})`;
+    }
+    requestAnimationFrame(heroBgTick);
+  }
+  requestAnimationFrame(heroBgTick);
+
+  /* ══════════════════════════════════════════════════════════════
+     SURGEON CAROUSEL
+  ══════════════════════════════════════════════════════════════ */
+  const track        = document.getElementById('carousel-track');
+  const viewport     = document.getElementById('carousel-viewport');
+  const prevBtn      = document.getElementById('arrow-prev');
+  const nextBtn      = document.getElementById('arrow-next');
+  const dotsWrap     = document.getElementById('carousel-dots');
+  const progressFill = document.getElementById('carousel-progress');
+  const counterEl    = document.getElementById('carousel-counter');
+  const cards        = Array.from(track.querySelectorAll('.surgeon-card'));
+  const TOTAL        = cards.length;
+
+  let currentSlide = 0;
+  let cardsVisible = 3;
+  let totalSlides  = 1;
+  let dots         = [];
+
+  function getCardsVisible() {
+    const w = window.innerWidth;
+    if (w <= 640) return 1;
+    if (w <= 900) return 2;
+    return 3;
+  }
+  function getTotalSlides(cv) { return Math.ceil(TOTAL / cv); }
+
+  function buildDots(n) {
+    dotsWrap.innerHTML = '';
+    dots = [];
+    for (let i = 0; i < n; i++) {
+      const btn = document.createElement('button');
+      btn.className = 'carousel-dot' + (i === 0 ? ' active' : '');
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-label', `Slide ${i + 1} of ${n}`);
+      btn.setAttribute('aria-selected', i === 0 ? 'true' : 'false');
+      btn.dataset.index = i;
+      btn.addEventListener('click', () => goTo(Number(btn.dataset.index)));
+      dotsWrap.appendChild(btn);
+      dots.push(btn);
+    }
+  }
+
+  function applyCardSize(cv) {
+    track.style.setProperty('--cards-visible', cv);
+    cards.forEach(c => c.style.setProperty('--cards-visible', cv));
+  }
+
+  function goTo(index, animated = true) {
+    currentSlide = Math.max(0, Math.min(index, totalSlides - 1));
+    const cardEl      = cards[0];
+    const gap         = 24;
+    const cardWidth   = cardEl.getBoundingClientRect().width;
+    const slideOffset = currentSlide * (cardsVisible * (cardWidth + gap));
+    if (!animated) {
+      track.style.transition = 'none';
+      requestAnimationFrame(() => {
+        track.style.transform = `translateX(-${slideOffset}px)`;
+        requestAnimationFrame(() => { track.style.transition = ''; });
+      });
+    } else {
+      track.style.transform = `translateX(-${slideOffset}px)`;
+    }
+    updateCarouselUI();
+  }
+
+  function updateCarouselUI() {
+    dots.forEach((d, i) => {
+      const active = i === currentSlide;
+      d.classList.toggle('active', active);
+      d.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    prevBtn.disabled = currentSlide === 0;
+    nextBtn.disabled = currentSlide === totalSlides - 1;
+    const pct = totalSlides > 1 ? (currentSlide / (totalSlides - 1)) * 100 : 100;
+    progressFill.style.width = pct + '%';
+    const cur = String(currentSlide + 1).padStart(2, '0');
+    const tot = String(totalSlides).padStart(2, '0');
+    counterEl.textContent = `${cur} / ${tot}`;
+    counterEl.setAttribute('aria-label', `Showing slide ${currentSlide + 1} of ${totalSlides}`);
+  }
+
+  function rebuild() {
+    cardsVisible = getCardsVisible();
+    totalSlides  = getTotalSlides(cardsVisible);
+    applyCardSize(cardsVisible);
+    buildDots(totalSlides);
+    currentSlide = Math.min(currentSlide, totalSlides - 1);
+    goTo(currentSlide, false);
+  }
+
+  prevBtn.addEventListener('click', () => goTo(currentSlide - 1));
+  nextBtn.addEventListener('click', () => goTo(currentSlide + 1));
+
+  viewport.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowLeft')  { e.preventDefault(); goTo(currentSlide - 1); }
+    if (e.key === 'ArrowRight') { e.preventDefault(); goTo(currentSlide + 1); }
+    if (e.key === 'Home')       { e.preventDefault(); goTo(0); }
+    if (e.key === 'End')        { e.preventDefault(); goTo(totalSlides - 1); }
+  });
+
+  let dragStartX = 0, isDragging = false, dragDelta = 0;
+  const DRAG_THRESHOLD = 40;
+
+  function dragStart(x) { dragStartX = x; dragDelta = 0; isDragging = true; track.classList.add('is-dragging'); }
+  function dragMove(x)  { if (!isDragging) return; dragDelta = x - dragStartX; }
+  function dragEnd()    {
+    if (!isDragging) return;
+    isDragging = false;
+    track.classList.remove('is-dragging');
+    if (dragDelta < -DRAG_THRESHOLD)     goTo(currentSlide + 1);
+    else if (dragDelta > DRAG_THRESHOLD) goTo(currentSlide - 1);
+    else                                 goTo(currentSlide);
+    dragDelta = 0;
+  }
+
+  track.addEventListener('touchstart', (e) => dragStart(e.touches[0].clientX), { passive: true });
+  track.addEventListener('touchmove',  (e) => dragMove(e.touches[0].clientX),  { passive: true });
+  track.addEventListener('touchend',   dragEnd);
+  track.addEventListener('mousedown',  (e) => { e.preventDefault(); dragStart(e.clientX); });
+  window.addEventListener('mousemove', (e) => { if (isDragging) dragMove(e.clientX); });
+  window.addEventListener('mouseup',   dragEnd);
+  track.addEventListener('click', (e) => { if (Math.abs(dragDelta) > 5) e.preventDefault(); }, true);
+
+  let resizeTimer;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeTimer);
+    resizeTimer = setTimeout(rebuild, 120);
+  }, { passive: true });
+
+  rebuild();
+
+  /* ══════════════════════════════════════════════════════════════
+     FORM TABS
+  ══════════════════════════════════════════════════════════════ */
+  document.querySelectorAll('.tab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+    });
+  });
+
+  /* ══════════════════════════════════════════════════════════════
+     FORM UTILITIES
+  ══════════════════════════════════════════════════════════════ */
+
+  function setFieldError(input, message) {
+    const errorEl = input.parentElement.querySelector('.field-error');
+    if (!errorEl) return;
+    if (message) {
+      errorEl.textContent = message;
+      errorEl.classList.add('visible');
+      input.classList.add('invalid');
+      input.setAttribute('aria-invalid', 'true');
+    } else {
+      errorEl.textContent = '';
+      errorEl.classList.remove('visible');
+      input.classList.remove('invalid');
+      input.removeAttribute('aria-invalid');
+    }
+  }
+
+  function clearErrors(form) {
+    form.querySelectorAll('.form-input, .form-select').forEach(i => setFieldError(i, ''));
+  }
+
+  function validateField(input) {
+    const v = input.value.trim();
+    if (input.required && !v) return 'This field is required.';
+    if (input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
+      return 'Please enter a valid email address.';
+    return '';
+  }
+
+  function validateForm(form) {
+    let valid = true;
+    form.querySelectorAll('.form-input[required], .form-select[required]').forEach(input => {
+      const err = validateField(input);
+      if (err) { setFieldError(input, err); valid = false; }
+      else      { setFieldError(input, ''); }
+    });
+    return valid;
+  }
+
+  function attachLiveValidation(form) {
+    form.querySelectorAll('.form-input, .form-select').forEach(input => {
+      input.addEventListener('input',  () => { if (input.classList.contains('invalid')) setFieldError(input, validateField(input)); });
+      input.addEventListener('change', () => { if (input.classList.contains('invalid')) setFieldError(input, validateField(input)); });
+    });
+  }
+
+  function showFeedback(feedbackEl, type, message) {
+    feedbackEl.className = 'form-feedback ' + type;
+    feedbackEl.innerHTML = message;
+    feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  }
+
+  function setLoading(btn, loading) {
+    btn.classList.toggle('loading', loading);
+  }
+
+  function setDone(btn, label) {
+    btn.classList.remove('loading');
+    btn.classList.add('done');
+    btn.querySelector('.btn-label').textContent = label;
+  }
+
+  /* Google Apps Script: use text/plain to avoid CORS preflight.
+     Body is valid JSON — GAS reads it with JSON.parse(e.postData.contents). */
+  async function submitToSheet(payload) {
+    return fetch(ENDPOINT, {
+      method:  'POST',
+      headers: { 'Content-Type': 'text/plain' },
+      body:    JSON.stringify(payload),
+    });
+  }
+
+  /* ══════════════════════════════════════════════════════════════
+     FORM 1 — PATIENT / CONSULT
+  ══════════════════════════════════════════════════════════════ */
+  const patientForm     = document.getElementById('form-patient');
+  const patientFeedback = document.getElementById('feedback-patient');
+  const patientSubmit   = document.getElementById('submit-patient');
+
+  attachLiveValidation(patientForm);
+
+  patientForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors(patientForm);
+    patientFeedback.className = 'form-feedback';
+
+    if (!validateForm(patientForm)) {
+      showFeedback(patientFeedback, 'error', '&#9888;&nbsp; Please fill in all required fields correctly.');
+      return;
+    }
+
+    setLoading(patientSubmit, true);
+
+    const payload = {
+      formType:         'patient',
+      firstName:        patientForm.firstName.value.trim(),
+      lastName:         patientForm.lastName.value.trim(),
+      phone:            patientForm.phone.value.trim(),
+      email:            patientForm.email.value.trim(),
+      areaOfInterest:   patientForm.areaOfInterest.value.trim(),
+      preferredSurgeon: patientForm.preferredSurgeon.value.trim(),
+    };
+
+    try {
+      await submitToSheet(payload);
+      setDone(patientSubmit, 'Enquiry Sent ✓');
+      showFeedback(patientFeedback, 'success',
+        '&#10003;&nbsp; Thank you! We\'ve received your enquiry and will be in touch within 48 hours.');
+      patientForm.reset();
+      clearErrors(patientForm);
+    } catch (err) {
+      setLoading(patientSubmit, false);
+      showFeedback(patientFeedback, 'error',
+        '&#9888;&nbsp; Something went wrong. Please try again or contact us directly.');
+      console.error('Patient form error:', err);
+    }
+  });
+
+  /* ══════════════════════════════════════════════════════════════
+     FORM 2 — CLIENT / PARTNER
+  ══════════════════════════════════════════════════════════════ */
+  const clientForm     = document.getElementById('form-client');
+  const clientFeedback = document.getElementById('feedback-client');
+  const clientSubmit   = document.getElementById('submit-client');
+
+  attachLiveValidation(clientForm);
+
+  clientForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    clearErrors(clientForm);
+    clientFeedback.className = 'form-feedback';
+
+    if (!validateForm(clientForm)) {
+      showFeedback(clientFeedback, 'error', '&#9888;&nbsp; Please fill in all required fields correctly.');
+      return;
+    }
+
+    setLoading(clientSubmit, true);
+
+    const payload = {
+      formType:      'client',
+      fullName:      clientForm.fullName.value.trim(),
+      clinicCompany: clientForm.clinicCompany.value.trim(),
+      country:       clientForm.country.value.trim(),
+      email:         clientForm.email.value.trim(),
+      message:       clientForm.message.value.trim(),
+    };
+
+    try {
+      await submitToSheet(payload);
+      setDone(clientSubmit, 'Application Sent ✓');
+      showFeedback(clientFeedback, 'success',
+        '&#10003;&nbsp; Thank you for your interest in partnering with nine_lab. We\'ll review your application and respond within 48 hours.');
+      clientForm.reset();
+      clearErrors(clientForm);
+    } catch (err) {
+      setLoading(clientSubmit, false);
+      showFeedback(clientFeedback, 'error',
+        '&#9888;&nbsp; Something went wrong. Please try again or contact us directly.');
+      console.error('Client form error:', err);
+    }
+  });
+
+  /* ══════════════════════════════════════════════════════════════
+     SECTION REVEAL ON SCROLL
+  ══════════════════════════════════════════════════════════════ */
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.style.opacity   = '1';
+        e.target.style.transform = 'translateY(0)';
+      }
+    });
+  }, { threshold: 0.12 });
+
+  document.querySelectorAll('.pillar-num, .platform-card, .trust-item').forEach(el => {
+    el.style.opacity    = '0';
+    el.style.transform  = 'translateY(20px)';
+    el.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+    io.observe(el);
+  });
+
+})();
+</script>
+</body>
+</html>
