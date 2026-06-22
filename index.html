@@ -148,7 +148,47 @@
   }
   .stat-num { font-family: var(--font-display); font-size: 34px; font-weight: 400; color: var(--navy); line-height: 1; }
   .stat-label { font-size: 10px; letter-spacing: 0.1em; color: var(--text-light); text-transform: uppercase; margin-top: 6px; }
+/* ─── Mobile: shift focal point to the model on the right ─── */
+@media (max-width: 768px) {
+  .hero-bg {
+    background-position: 75% center;
+    inset: -8% -15%;          /* wider bleed to allow the rightward shift */
+  }
 
+  /* Soften the left overlay so text stays legible over the image */
+  .hero-overlay {
+    background:
+      linear-gradient(
+        to bottom,
+        rgba(240,222,202,0.82) 0%,
+        rgba(240,222,202,0.60) 40%,
+        rgba(240,222,202,0.50) 100%
+      ),
+      linear-gradient(
+        to right,
+        rgba(240,222,202,0.70) 0%,
+        rgba(240,222,202,0.30) 60%,
+        rgba(240,222,202,0.00) 100%
+      );
+  }
+
+  /* Pull hero text up slightly so it doesn't fight the model */
+  .hero-inner {
+    max-width: 100%;
+  }
+
+  .hero-content {
+    padding: 100px 0 60px;
+  }
+}
+
+/* ─── Small mobile: show even more of the right side ─────── */
+@media (max-width: 480px) {
+  .hero-bg {
+    background-position: 80% center;
+    inset: -8% -20%;
+  }
+}
   /* ─── WHAT WE DO ─────────────────────────────────────────────── */
   .what-section { background: var(--white); }
   .section-label { font-size: 11px; font-weight: 500; letter-spacing: 0.16em; color: var(--blush); text-transform: uppercase; margin-bottom: 12px; }
