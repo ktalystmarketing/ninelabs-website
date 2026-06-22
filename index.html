@@ -259,6 +259,65 @@
   .form-submit:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(232,137,106,0.35); }
   .form-note { text-align: center; margin-top: 14px; font-size: 11px; color: rgba(255,255,255,0.3); line-height: 1.6; }
 
+  /* ─── Tab fade/slide transition ─────────────────────────────── */
+.tab-pane {
+  display: none;
+  padding: 32px 30px 36px;
+  opacity: 0;
+  transform: translateY(8px);
+  /* transition only fires when .active is toggled by JS */
+}
+.tab-pane.active {
+  display: block;
+  animation: tabFadeIn 0.38s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
+@keyframes tabFadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Searchable select dropdown ─────────────────────────────── */
+.select-search-wrap {
+  position: relative;
+}
+.select-search-input {
+  padding-right: 38px; /* room for chevron */
+  cursor: text;
+}
+.select-search-chevron {
+  position: absolute; right: 14px; top: 50%; transform: translateY(-50%);
+  pointer-events: none; color: rgba(255,255,255,0.35);
+  display: flex; align-items: center;
+  transition: transform 0.2s;
+}
+.select-search-wrap.open .select-search-chevron { transform: translateY(-50%) rotate(180deg); }
+
+.select-search-list {
+  display: none;
+  position: absolute; top: calc(100% + 6px); left: 0; right: 0;
+  background: #0F3349;
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: var(--r-input);
+  overflow-y: auto; max-height: 220px;
+  z-index: 50;
+  list-style: none; padding: 6px 0; margin: 0;
+  box-shadow: 0 12px 40px rgba(13,43,62,0.40);
+}
+.select-search-wrap.open .select-search-list { display: block; }
+
+.select-search-list li {
+  padding: 10px 16px;
+  font-size: 13.5px; color: rgba(255,255,255,0.78);
+  cursor: pointer; transition: background 0.15s, color 0.15s;
+}
+.select-search-list li:hover,
+.select-search-list li[aria-selected="true"] {
+  background: rgba(232,137,106,0.18);
+  color: var(--white);
+}
+.select-search-list li.no-results {
+  color: rgba(255,255,255,0.35); cursor: default; font-style: italic; font-size: 12.5px;
+}
   /* ─── Form validation & feedback ────────────────────────────── */
   .req { color: var(--blush); font-style: normal; }
   .opt { color: rgba(255,255,255,0.30); font-size: 10px; font-style: normal; }
@@ -541,104 +600,128 @@
             <button class="tab-btn" data-tab="partner" type="button">Become a Partner</button>
           </div>
 
-          <!-- ── FORM 1: Patient / Consult ── -->
-          <div class="tab-pane active" id="tab-consult">
-            <form id="form-patient" novalidate>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label" for="p-firstName">First Name <span class="req">*</span></label>
-                  <input type="text" id="p-firstName" name="firstName" class="form-input" placeholder="Jane" required autocomplete="given-name">
-                  <span class="field-error" aria-live="polite"></span>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="p-lastName">Last Name</label>
-                  <input type="text" id="p-lastName" name="lastName" class="form-input" placeholder="Smith" autocomplete="family-name">
-                </div>
-              </div>
+         <!-- ── FORM 1: Patient / Consult ── -->
+        <div class="tab-pane active" id="tab-consult">
+          <form id="form-patient" novalidate>
+            <div class="form-row">
               <div class="form-group">
-                <label class="form-label" for="p-phone">Phone Number <span class="req">*</span></label>
-                <input type="tel" id="p-phone" name="phone" class="form-input" placeholder="+65 9000 0000" required autocomplete="tel">
-                <span class="field-error" aria-live="polite"></span>
-              </div>
+                <label class="form-label" for="p-firstName">First Name <span class="req">*</span></label>
+              <input type="text" id="p-firstName" name="firstName" class="form-input" placeholder="Jane" required autocomplete="given-name">
+              <span class="field-error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="p-lastName">Last Name</label>
+              <input type="text" id="p-lastName" name="lastName" class="form-input" placeholder="Smith" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="p-email">Email Address <span class="req">*</span></label>
+            <input type="email" id="p-email" name="email" class="form-input" placeholder="jane@example.com" required autocomplete="email">
+            <span class="field-error" aria-live="polite"></span>
+          </div>
+         <div class="form-group">
+          <label class="form-label" for="p-location">Country of Residence <span class="req">*</span></label>
+          <div class="select-search-wrap" id="p-location-wrap">
+            <input
+              type="text"
+              id="p-location"
+              name="countryCity"
+              class="form-input select-search-input"
+              placeholder="Search or type your Country of Residence…"
+              required
+              autocomplete="off"
+              aria-haspopup="listbox"
+              aria-expanded="false"
+              aria-autocomplete="list"
+              aria-controls="p-location-list"
+            >
+            <span class="select-search-chevron" aria-hidden="true">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><polyline points="6 9 12 15 18 9"/></svg>
+            </span>
+            <ul class="select-search-list" id="p-location-list" role="listbox" aria-label="Country or city options"></ul>
+          </div>
+          <span class="field-error" aria-live="polite"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="p-interest">Area of Interest <span class="req">*</span></label>
+          <select id="p-interest" name="areaOfInterest" class="form-input form-select" required>
+            <option value="" disabled selected>Select a procedure type…</option>
+            <option>Facial Rejuvenation</option>
+            <option>Body Contouring</option>
+            <option>Skin &amp; Laser Treatments</option>
+            <option>Rhinoplasty</option>
+            <option>Breast Procedures</option>
+            <option>Other / Not Sure Yet</option>
+          </select>
+          <span class="field-error" aria-live="polite"></span>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="p-surgeon">Preferred Surgeon <span class="opt">(optional)</span></label>
+          <input type="text" id="p-surgeon" name="preferredSurgeon" class="form-input" placeholder="Dr. A, Dr. B, or leave blank">
+        </div>
+        <div class="form-feedback" id="feedback-patient" aria-live="polite" role="alert"></div>
+        <button type="submit" class="form-submit" id="submit-patient">
+          <span class="btn-label">Get Consultation</span>
+          <span class="btn-spinner" aria-hidden="true"></span>
+        </button>
+        <p class="form-note">By submitting, you agree to our Privacy Policy. No obligation — simply a conversation.</p>
+      </form>
+    </div>
+
+          <!-- ── FORM 2: Partner / Client ── -->
+        <div class="tab-pane" id="tab-partner">
+          <form id="form-client" novalidate>
+            <div class="form-group">
+              <label class="form-label" for="c-fullName">Full Name <span class="req">*</span></label>
+              <input type="text" id="c-fullName" name="fullName" class="form-input" placeholder="Dr. / Ms. / Mr." required autocomplete="name">
+              <span class="field-error" aria-live="polite"></span>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-clinic">Clinic / Company <span class="req">*</span></label>
+              <input type="text" id="c-clinic" name="clinicCompany" class="form-input" placeholder="Your clinic or organisation name" required autocomplete="organization">
+              <span class="field-error" aria-live="polite"></span>
+            </div>
+            <div class="form-row">
               <div class="form-group">
-                <label class="form-label" for="p-email">Email Address <span class="req">*</span></label>
-                <input type="email" id="p-email" name="email" class="form-input" placeholder="jane@example.com" required autocomplete="email">
-                <span class="field-error" aria-live="polite"></span>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="p-interest">Area of Interest <span class="req">*</span></label>
-                <select id="p-interest" name="areaOfInterest" class="form-input form-select" required>
-                  <option value="" disabled selected>Select a procedure type…</option>
-                  <option>Facial Rejuvenation</option>
-                  <option>Body Contouring</option>
-                  <option>Skin &amp; Laser Treatments</option>
-                  <option>Rhinoplasty</option>
-                  <option>Breast Procedures</option>
-                  <option>Other / Not Sure Yet</option>
+                <label class="form-label" for="c-country">Country <span class="req">*</span></label>
+                <select id="c-country" name="country" class="form-input form-select" required>
+                  <option value="" disabled selected>Select…</option>
+                  <option>Singapore</option>
+                  <option>Malaysia</option>
+                  <option>Thailand</option>
+                  <option>Indonesia</option>
+                  <option>South Korea</option>
+                  <option>Vietnam</option>
+                  <option>Philippines</option>
+                  <option>Japan</option>
+                  <option>Taiwan</option>
+                  <option>Australia</option>
+                  <option>Other</option>
                 </select>
                 <span class="field-error" aria-live="polite"></span>
               </div>
               <div class="form-group">
-                <label class="form-label" for="p-surgeon">Preferred Surgeon <span class="opt">(optional)</span></label>
-                <input type="text" id="p-surgeon" name="preferredSurgeon" class="form-input" placeholder="Dr. A, Dr. B, or leave blank">
-              </div>
-              <div class="form-feedback" id="feedback-patient" aria-live="polite" role="alert"></div>
-              <button type="submit" class="form-submit" id="submit-patient">
-                <span class="btn-label">Get Consultation</span>
-                <span class="btn-spinner" aria-hidden="true"></span>
-              </button>
-              <p class="form-note">By submitting, you agree to our Privacy Policy. No obligation — simply a conversation.</p>
-            </form>
-          </div>
-
-          <!-- ── FORM 2: Partner / Client ── -->
-          <div class="tab-pane" id="tab-partner">
-            <form id="form-client" novalidate>
-              <div class="form-group">
-                <label class="form-label" for="c-fullName">Full Name <span class="req">*</span></label>
-                <input type="text" id="c-fullName" name="fullName" class="form-input" placeholder="Dr. / Ms. / Mr." required autocomplete="name">
+                <label class="form-label" for="c-email">Email <span class="req">*</span></label>
+                <input type="email" id="c-email" name="email" class="form-input" placeholder="you@clinic.com" required autocomplete="email">
                 <span class="field-error" aria-live="polite"></span>
               </div>
-              <div class="form-group">
-                <label class="form-label" for="c-clinic">Clinic / Company <span class="req">*</span></label>
-                <input type="text" id="c-clinic" name="clinicCompany" class="form-input" placeholder="Your clinic or organisation name" required autocomplete="organization">
-                <span class="field-error" aria-live="polite"></span>
-              </div>
-              <div class="form-row">
-                <div class="form-group">
-                  <label class="form-label" for="c-country">Country <span class="req">*</span></label>
-                  <select id="c-country" name="country" class="form-input form-select" required>
-                    <option value="" disabled selected>Select…</option>
-                    <option>Singapore</option>
-                    <option>Malaysia</option>
-                    <option>Thailand</option>
-                    <option>Indonesia</option>
-                    <option>South Korea</option>
-                    <option>Japan</option>
-                    <option>Taiwan</option>
-                    <option>Australia</option>
-                    <option>Other</option>
-                  </select>
-                  <span class="field-error" aria-live="polite"></span>
-                </div>
-                <div class="form-group">
-                  <label class="form-label" for="c-email">Email <span class="req">*</span></label>
-                  <input type="email" id="c-email" name="email" class="form-input" placeholder="you@clinic.com" required autocomplete="email">
-                  <span class="field-error" aria-live="polite"></span>
-                </div>
-              </div>
-              <div class="form-group">
-                <label class="form-label" for="c-message">Message <span class="opt">(optional)</span></label>
-                <textarea id="c-message" name="message" class="form-input form-textarea" placeholder="Tell us about your clinic and how you'd like to collaborate…"></textarea>
-              </div>
-              <div class="form-feedback" id="feedback-client" aria-live="polite" role="alert"></div>
-              <button type="submit" class="form-submit" id="submit-client">
-                <span class="btn-label">Become a Partner</span>
-                <span class="btn-spinner" aria-hidden="true"></span>
-              </button>
-              <p class="form-note">We review every partnership application personally and respond within 48 hours.</p>
-            </form>
-          </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-phone">Phone Number <span class="opt">(optional)</span></label>
+              <input type="tel" id="c-phone" name="phone" class="form-input" placeholder="+65 9000 0000" autocomplete="tel">
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="c-message">Message <span class="opt">(optional)</span></label>
+              <textarea id="c-message" name="message" class="form-input form-textarea" placeholder="Tell us about your clinic and how you'd like to collaborate…"></textarea>
+            </div>
+            <div class="form-feedback" id="feedback-client" aria-live="polite" role="alert"></div>
+            <button type="submit" class="form-submit" id="submit-client">
+              <span class="btn-label">Become a Partner</span>
+              <span class="btn-spinner" aria-hidden="true"></span>
+            </button>
+            <p class="form-note">We review every partnership application personally and respond within 48 hours.</p>
+          </form>
+        </div>
 
         </div>
       </div>
@@ -866,202 +949,339 @@
 
   rebuild();
 
-  /* ══════════════════════════════════════════════════════════════
-     FORM TABS
-  ══════════════════════════════════════════════════════════════ */
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+ /* ══════════════════════════════════════════════════════════════
+   FORM TABS — with fade/slide transition
+══════════════════════════════════════════════════════════════ */
+document.querySelectorAll('.tab-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const target = btn.dataset.tab;
+    // Already active — do nothing
+    if (btn.classList.contains('active')) return;
+
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    // Remove active without display:none flash — let animation handle it
+    document.querySelectorAll('.tab-pane').forEach(p => {
+      p.classList.remove('active');
+      p.style.display = 'none';
     });
+
+    btn.classList.add('active');
+    const pane = document.getElementById('tab-' + target);
+    pane.style.display = 'block';
+    // Force reflow so animation triggers fresh each time
+    void pane.offsetWidth;
+    pane.classList.add('active');
   });
+});
 
-  /* ══════════════════════════════════════════════════════════════
-     FORM UTILITIES
-  ══════════════════════════════════════════════════════════════ */
+/* ══════════════════════════════════════════════════════════════
+   SEARCHABLE SELECT — Country of Residence (patient form)
+══════════════════════════════════════════════════════════════ */
+const LOCATION_OPTIONS = [
+  'Singapore',
+  'Malaysia',
+  'Indonesia',
+  'Thailand',
+  'Vietnam',
+  'Philippines',
+  'Hong Kong',
+  'Taiwan',
+  'South Korea',
+  'Japan',
+  'Australia',
+  'Other'
+];
 
-  function setFieldError(input, message) {
-    const errorEl = input.parentElement.querySelector('.field-error');
-    if (!errorEl) return;
-    if (message) {
-      errorEl.textContent = message;
-      errorEl.classList.add('visible');
-      input.classList.add('invalid');
-      input.setAttribute('aria-invalid', 'true');
-    } else {
-      errorEl.textContent = '';
-      errorEl.classList.remove('visible');
-      input.classList.remove('invalid');
-      input.removeAttribute('aria-invalid');
-    }
-  }
+function initSelectSearch(inputId, listId, wrapId, options) {
+  const input = document.getElementById(inputId);
+  const list  = document.getElementById(listId);
+  const wrap  = document.getElementById(wrapId);
+  if (!input || !list || !wrap) return;
 
-  function clearErrors(form) {
-    form.querySelectorAll('.form-input, .form-select').forEach(i => setFieldError(i, ''));
-  }
+  let activeIndex = -1;
 
-  function validateField(input) {
-    const v = input.value.trim();
-    if (input.required && !v) return 'This field is required.';
-    if (input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
-      return 'Please enter a valid email address.';
-    return '';
-  }
+  function renderList(filter) {
+    const q = filter.toLowerCase().trim();
+    const filtered = q
+      ? options.filter(o => o.toLowerCase().includes(q))
+      : options;
 
-  function validateForm(form) {
-    let valid = true;
-    form.querySelectorAll('.form-input[required], .form-select[required]').forEach(input => {
-      const err = validateField(input);
-      if (err) { setFieldError(input, err); valid = false; }
-      else      { setFieldError(input, ''); }
-    });
-    return valid;
-  }
+    list.innerHTML = '';
+    activeIndex = -1;
 
-  function attachLiveValidation(form) {
-    form.querySelectorAll('.form-input, .form-select').forEach(input => {
-      input.addEventListener('input',  () => { if (input.classList.contains('invalid')) setFieldError(input, validateField(input)); });
-      input.addEventListener('change', () => { if (input.classList.contains('invalid')) setFieldError(input, validateField(input)); });
-    });
-  }
-
-  function showFeedback(feedbackEl, type, message) {
-    feedbackEl.className = 'form-feedback ' + type;
-    feedbackEl.innerHTML = message;
-    feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-  }
-
-  function setLoading(btn, loading) {
-    btn.classList.toggle('loading', loading);
-  }
-
-  function setDone(btn, label) {
-    btn.classList.remove('loading');
-    btn.classList.add('done');
-    btn.querySelector('.btn-label').textContent = label;
-  }
-
-  /* Google Apps Script: use text/plain to avoid CORS preflight.
-     Body is valid JSON — GAS reads it with JSON.parse(e.postData.contents). */
-  async function submitToSheet(payload) {
-    return fetch(ENDPOINT, {
-      method:  'POST',
-      headers: { 'Content-Type': 'text/plain' },
-      body:    JSON.stringify(payload),
-    });
-  }
-
-  /* ══════════════════════════════════════════════════════════════
-     FORM 1 — PATIENT / CONSULT
-  ══════════════════════════════════════════════════════════════ */
-  const patientForm     = document.getElementById('form-patient');
-  const patientFeedback = document.getElementById('feedback-patient');
-  const patientSubmit   = document.getElementById('submit-patient');
-
-  attachLiveValidation(patientForm);
-
-  patientForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    clearErrors(patientForm);
-    patientFeedback.className = 'form-feedback';
-
-    if (!validateForm(patientForm)) {
-      showFeedback(patientFeedback, 'error', '&#9888;&nbsp; Please fill in all required fields correctly.');
+    if (filtered.length === 0) {
+      const li = document.createElement('li');
+      li.className = 'no-results';
+      li.textContent = 'No matches — your entry will be used as-is.';
+      list.appendChild(li);
       return;
     }
 
-    setLoading(patientSubmit, true);
+    filtered.forEach((opt, i) => {
+      const li = document.createElement('li');
+      li.textContent = opt;
+      li.setAttribute('role', 'option');
+      li.setAttribute('aria-selected', 'false');
+      li.dataset.value = opt;
+      li.addEventListener('mousedown', (e) => {
+        // mousedown fires before blur, so we can set value before close
+        e.preventDefault();
+        selectOption(opt);
+      });
+      list.appendChild(li);
+    });
+  }
 
-    const payload = {
-      formType:         'patient',
-      firstName:        patientForm.firstName.value.trim(),
-      lastName:         patientForm.lastName.value.trim(),
-      phone:            patientForm.phone.value.trim(),
-      email:            patientForm.email.value.trim(),
-      areaOfInterest:   patientForm.areaOfInterest.value.trim(),
-      preferredSurgeon: patientForm.preferredSurgeon.value.trim(),
-    };
-
-    try {
-      await submitToSheet(payload);
-      setDone(patientSubmit, 'Enquiry Sent ✓');
-      showFeedback(patientFeedback, 'success',
-        '&#10003;&nbsp; Thank you! We\'ve received your enquiry and will be in touch within 48 hours.');
-      patientForm.reset();
-      clearErrors(patientForm);
-    } catch (err) {
-      setLoading(patientSubmit, false);
-      showFeedback(patientFeedback, 'error',
-        '&#9888;&nbsp; Something went wrong. Please try again or contact us directly.');
-      console.error('Patient form error:', err);
+  function selectOption(value) {
+    input.value = value;
+    closeList();
+    // Clear validation error if it was showing
+    if (input.classList.contains('invalid')) {
+      setFieldError(input, validateField(input));
     }
+  }
+
+  function openList() {
+    wrap.classList.add('open');
+    input.setAttribute('aria-expanded', 'true');
+    renderList(input.value);
+  }
+
+  function closeList() {
+    wrap.classList.remove('open');
+    input.setAttribute('aria-expanded', 'false');
+    activeIndex = -1;
+  }
+
+  function setActiveItem(index) {
+    const items = list.querySelectorAll('li:not(.no-results)');
+    items.forEach((li, i) => {
+      const active = i === index;
+      li.setAttribute('aria-selected', active ? 'true' : 'false');
+    });
+    activeIndex = index;
+    if (items[index]) {
+      items[index].scrollIntoView({ block: 'nearest' });
+    }
+  }
+
+  input.addEventListener('focus', () => openList());
+  input.addEventListener('blur',  () => setTimeout(closeList, 150));
+
+  input.addEventListener('input', () => {
+    openList();
+    renderList(input.value);
   });
 
-  /* ══════════════════════════════════════════════════════════════
-     FORM 2 — CLIENT / PARTNER
-  ══════════════════════════════════════════════════════════════ */
-  const clientForm     = document.getElementById('form-client');
-  const clientFeedback = document.getElementById('feedback-client');
-  const clientSubmit   = document.getElementById('submit-client');
-
-  attachLiveValidation(clientForm);
-
-  clientForm.addEventListener('submit', async (e) => {
-    e.preventDefault();
-    clearErrors(clientForm);
-    clientFeedback.className = 'form-feedback';
-
-    if (!validateForm(clientForm)) {
-      showFeedback(clientFeedback, 'error', '&#9888;&nbsp; Please fill in all required fields correctly.');
+  input.addEventListener('keydown', (e) => {
+    const items = list.querySelectorAll('li:not(.no-results)');
+    if (!wrap.classList.contains('open')) {
+      if (e.key === 'ArrowDown' || e.key === 'Enter') openList();
       return;
     }
-
-    setLoading(clientSubmit, true);
-
-    const payload = {
-      formType:      'client',
-      fullName:      clientForm.fullName.value.trim(),
-      clinicCompany: clientForm.clinicCompany.value.trim(),
-      country:       clientForm.country.value.trim(),
-      email:         clientForm.email.value.trim(),
-      message:       clientForm.message.value.trim(),
-    };
-
-    try {
-      await submitToSheet(payload);
-      setDone(clientSubmit, 'Application Sent ✓');
-      showFeedback(clientFeedback, 'success',
-        '&#10003;&nbsp; Thank you for your interest in partnering with nine_lab. We\'ll review your application and respond within 48 hours.');
-      clientForm.reset();
-      clearErrors(clientForm);
-    } catch (err) {
-      setLoading(clientSubmit, false);
-      showFeedback(clientFeedback, 'error',
-        '&#9888;&nbsp; Something went wrong. Please try again or contact us directly.');
-      console.error('Client form error:', err);
-    }
-  });
-
-  /* ══════════════════════════════════════════════════════════════
-     SECTION REVEAL ON SCROLL
-  ══════════════════════════════════════════════════════════════ */
-  const io = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) {
-        e.target.style.opacity   = '1';
-        e.target.style.transform = 'translateY(0)';
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setActiveItem(Math.min(activeIndex + 1, items.length - 1));
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setActiveItem(Math.max(activeIndex - 1, 0));
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      if (activeIndex >= 0 && items[activeIndex]) {
+        selectOption(items[activeIndex].dataset.value);
       }
-    });
-  }, { threshold: 0.12 });
-
-  document.querySelectorAll('.pillar-num, .platform-card, .trust-item').forEach(el => {
-    el.style.opacity    = '0';
-    el.style.transform  = 'translateY(20px)';
-    el.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
-    io.observe(el);
+    } else if (e.key === 'Escape') {
+      closeList();
+    }
   });
+
+  // Initial list render
+  renderList('');
+}
+
+initSelectSearch('p-location', 'p-location-list', 'p-location-wrap', LOCATION_OPTIONS);
+
+/* ══════════════════════════════════════════════════════════════
+   FORM UTILITIES
+══════════════════════════════════════════════════════════════ */
+
+function setFieldError(input, message) {
+  const errorEl = input.closest('.form-group').querySelector('.field-error');
+  if (!errorEl) return;
+  if (message) {
+    errorEl.textContent = message;
+    errorEl.classList.add('visible');
+    input.classList.add('invalid');
+    input.setAttribute('aria-invalid', 'true');
+  } else {
+    errorEl.textContent = '';
+    errorEl.classList.remove('visible');
+    input.classList.remove('invalid');
+    input.removeAttribute('aria-invalid');
+  }
+}
+
+function clearErrors(form) {
+  form.querySelectorAll('.form-input, .form-select').forEach(i => setFieldError(i, ''));
+}
+
+function validateField(input) {
+  const v = input.value.trim();
+  if (input.required && !v) return 'This field is required.';
+  if (input.type === 'email' && v && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(v))
+    return 'Please enter a valid email address.';
+  return '';
+}
+
+function validateForm(form) {
+  let valid = true;
+  form.querySelectorAll('.form-input[required], .form-select[required]').forEach(input => {
+    const err = validateField(input);
+    if (err) { setFieldError(input, err); valid = false; }
+    else      { setFieldError(input, ''); }
+  });
+  return valid;
+}
+
+function attachLiveValidation(form) {
+  form.querySelectorAll('.form-input, .form-select').forEach(input => {
+    input.addEventListener('input',  () => { if (input.classList.contains('invalid')) setFieldError(input, validateField(input)); });
+    input.addEventListener('change', () => { if (input.classList.contains('invalid')) setFieldError(input, validateField(input)); });
+  });
+}
+
+function showFeedback(feedbackEl, type, message) {
+  feedbackEl.className = 'form-feedback ' + type;
+  feedbackEl.innerHTML = message;
+  feedbackEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
+
+function setLoading(btn, loading) { btn.classList.toggle('loading', loading); }
+
+function setDone(btn, label) {
+  btn.classList.remove('loading');
+  btn.classList.add('done');
+  btn.querySelector('.btn-label').textContent = label;
+}
+
+async function submitToSheet(payload) {
+  return fetch(ENDPOINT, {
+    method:  'POST',
+    headers: { 'Content-Type': 'text/plain' },
+    body:    JSON.stringify(payload),
+  });
+}
+
+/* ══════════════════════════════════════════════════════════════
+   FORM 1 — PATIENT / CONSULT
+══════════════════════════════════════════════════════════════ */
+const patientForm     = document.getElementById('form-patient');
+const patientFeedback = document.getElementById('feedback-patient');
+const patientSubmit   = document.getElementById('submit-patient');
+
+attachLiveValidation(patientForm);
+
+patientForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearErrors(patientForm);
+  patientFeedback.className = 'form-feedback';
+
+  if (!validateForm(patientForm)) {
+    showFeedback(patientFeedback, 'error', '&#9888;&nbsp; Please fill in all required fields correctly.');
+    return;
+  }
+
+  setLoading(patientSubmit, true);
+
+  const payload = {
+    formType:         'patient',
+    firstName:        patientForm.firstName.value.trim(),
+    lastName:         patientForm.lastName.value.trim(),
+    email:            patientForm.email.value.trim(),
+    countryCity:      patientForm.countryCity.value.trim(),
+    areaOfInterest:   patientForm.areaOfInterest.value.trim(),
+    preferredSurgeon: patientForm.preferredSurgeon.value.trim(),
+  };
+
+  try {
+    await submitToSheet(payload);
+    setDone(patientSubmit, 'Enquiry Sent ✓');
+    showFeedback(patientFeedback, 'success',
+      '&#10003;&nbsp; Thank you! We\'ve received your enquiry and will be in touch within 48 hours.');
+    patientForm.reset();
+    clearErrors(patientForm);
+  } catch (err) {
+    setLoading(patientSubmit, false);
+    showFeedback(patientFeedback, 'error',
+      '&#9888;&nbsp; Something went wrong. Please try again or contact us directly.');
+    console.error('Patient form error:', err);
+  }
+});
+
+/* ══════════════════════════════════════════════════════════════
+   FORM 2 — CLIENT / PARTNER
+══════════════════════════════════════════════════════════════ */
+const clientForm     = document.getElementById('form-client');
+const clientFeedback = document.getElementById('feedback-client');
+const clientSubmit   = document.getElementById('submit-client');
+
+attachLiveValidation(clientForm);
+
+clientForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  clearErrors(clientForm);
+  clientFeedback.className = 'form-feedback';
+
+  if (!validateForm(clientForm)) {
+    showFeedback(clientFeedback, 'error', '&#9888;&nbsp; Please fill in all required fields correctly.');
+    return;
+  }
+
+  setLoading(clientSubmit, true);
+
+  const payload = {
+    formType:      'client',
+    fullName:      clientForm.fullName.value.trim(),
+    clinicCompany: clientForm.clinicCompany.value.trim(),
+    country:       clientForm.country.value.trim(),
+    email:         clientForm.email.value.trim(),
+    phone:         clientForm.phone.value.trim(),
+    message:       clientForm.message.value.trim(),
+  };
+
+  try {
+    await submitToSheet(payload);
+    setDone(clientSubmit, 'Application Sent ✓');
+    showFeedback(clientFeedback, 'success',
+      '&#10003;&nbsp; Thank you for your interest in partnering with nine_lab. We\'ll review your application and respond within 48 hours.');
+    clientForm.reset();
+    clearErrors(clientForm);
+  } catch (err) {
+    setLoading(clientSubmit, false);
+    showFeedback(clientFeedback, 'error',
+      '&#9888;&nbsp; Something went wrong. Please try again or contact us directly.');
+    console.error('Client form error:', err);
+  }
+});
+
+/* ══════════════════════════════════════════════════════════════
+   SECTION REVEAL ON SCROLL
+══════════════════════════════════════════════════════════════ */
+const io = new IntersectionObserver((entries) => {
+  entries.forEach(e => {
+    if (e.isIntersecting) {
+      e.target.style.opacity   = '1';
+      e.target.style.transform = 'translateY(0)';
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.pillar-num, .platform-card, .trust-item').forEach(el => {
+  el.style.opacity    = '0';
+  el.style.transform  = 'translateY(20px)';
+  el.style.transition = 'opacity 0.6s cubic-bezier(0.22,1,0.36,1), transform 0.6s cubic-bezier(0.22,1,0.36,1)';
+  io.observe(el);
+});
 
 })();
 </script>
